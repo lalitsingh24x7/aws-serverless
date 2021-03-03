@@ -1,0 +1,34 @@
+service: aws-users-register
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+
+  environment: ${file(../environment.yml):environment}
+
+  stage: dev
+  region: us-east-1
+
+
+package:
+  include:
+    - ../commons/**
+
+functions:
+  UserSignUp:
+    handler: handlers/register.sign_up
+
+    events:
+      - http:
+          path: sign-up
+          method: post
+
+  UserSignIn:
+    handler: handlers/register.sign_in
+
+    events:
+      - http:
+          path: sign-in
+          method: post

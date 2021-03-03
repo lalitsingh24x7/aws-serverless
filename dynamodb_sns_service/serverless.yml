@@ -1,0 +1,26 @@
+service: aws-serverless-dyamodb-sns
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+  memorySize: 256
+
+  stage: dev
+  region: us-east-1
+
+  environment: ${file(../environment.yml):environment}
+
+package:
+  include:
+    - ../commons/**
+
+functions:
+  SaveUserToDynamo:
+    handler: handler.save_user
+
+    events:
+      - http:
+          path: save-user-info
+          method: get

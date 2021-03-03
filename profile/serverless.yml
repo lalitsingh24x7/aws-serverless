@@ -1,0 +1,27 @@
+service: aws-users-detail
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: python3.8
+
+  environment: ${file(../environment.yml):environment}
+
+  stage: dev
+  region: us-east-1
+
+
+package:
+  include:
+    - ../commons/**
+
+functions:
+  UserDetails:
+    handler: handlers.user_profile
+    events:
+      - http:
+          path: /user-details
+          method: get
+          authorizer:
+             arn: ${file(../environment.yml):environment.USER_POOL_ARN}

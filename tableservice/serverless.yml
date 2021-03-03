@@ -1,0 +1,14 @@
+service: tableservice
+
+provider:
+  name: aws
+  runtime: python3.8
+  memorySize: 256
+
+  stage: dev
+  region: us-east-1
+
+  environment: ${file(../environment.yml):environment}
+
+resources:
+  - ${file(tables.yml)}
